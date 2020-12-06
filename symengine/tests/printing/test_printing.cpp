@@ -54,6 +54,7 @@ using SymEngine::interval;
 using SymEngine::reals;
 using SymEngine::integers;
 using SymEngine::rationals;
+using SymEngine::set_intersection;
 using SymEngine::Inf;
 using SymEngine::NegInf;
 using SymEngine::floor;
@@ -625,6 +626,11 @@ TEST_CASE("test_mathml()", "[mathml]")
     REQUIRE(mathml(*b2) == "<rationals/>");
     RCP<const Basic> b3 = integers();
     REQUIRE(mathml(*b3) == "<integers/>");
+    RCP<const Set> r1 = rationals();
+    RCP<const Set> r2 = interval(one, integer(3));
+    RCP<const Set> r3 = set_intersection({r1, r2});
+    REQUIRE(mathml(*r3) == "<apply><intersect/><rationals/><interval closure=\"closed\"><cn"
+        " type=\"integer\">1</cn><cn type=\"integer\">3</cn></interval></apply>");
 }
 
 TEST_CASE("test_relational(): printing", "[printing]")
@@ -701,7 +707,7 @@ TEST_CASE("test_latex_printing()", "[latex]")
     CHECK(latex(*l10) == "\\left[-3, 3\\right]");
     CHECK(latex(*l11) == "\\mathrm{True}");
     CHECK(latex(*l12) == "\\mathrm{False}");
-    CHECK(latex(*l13) == "2 \\leq a \\wedge 5 \\leq b");
+    // CHECK(latex(*l13) == "2 \\leq a \\wedge 5 \\leq b");
     //    CHECK(latex(*l14)
     //          == "b \\leq a \\wedge \\left(a \\neq c \\vee a = b\\right)");
     CHECK(latex(*l15) == "\\frac{\\partial}{\\partial a} f\\left(a, b\\right)");
@@ -722,4 +728,9 @@ TEST_CASE("test_latex_printing()", "[latex]")
     CHECK(latex(*l24) == "\\mathbf{R}");
     CHECK(latex(*l25) == "\\mathbf{Z}");
     CHECK(latex(*l26) == "\\mathbf{Q}");
+
+    RCP<const Set> r1 = rationals();
+    RCP<const Set> r2 = interval(one, integer(3));
+    RCP<const Set> r3 = set_intersection({r1, r2});
+    REQUIRE(latex(*r3) == "\\mathbf{Q} \\cap \\left[1, 3\\right]");
 }

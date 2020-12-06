@@ -208,6 +208,16 @@ void MathMLPrinter::bvisit(const Union &x)
     s << "</apply>";
 }
 
+void MathMLPrinter::bvisit(const Intersection &x)
+{
+    s << "<apply><intersect/>";
+    const auto &sets = x.get_args();
+    for (const auto &set : sets) {
+        set->accept(*this);
+    }
+    s << "</apply>";
+}
+
 void MathMLPrinter::bvisit(const Complement &x)
 {
     s << "<apply><setdiff/>";

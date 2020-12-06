@@ -79,30 +79,12 @@ void CodePrinter::bvisit(const Rational &x)
     o << print_double(n) << "/" << print_double(d);
     str_ = o.str();
 }
-void CodePrinter::bvisit(const Reals &x)
+
+void CodePrinter::bvisit(const Set &x)
 {
     throw SymEngineException("Not supported");
 }
-void CodePrinter::bvisit(const Rationals &x)
-{
-    throw SymEngineException("Not supported");
-}
-void CodePrinter::bvisit(const Integers &x)
-{
-    throw SymEngineException("Not supported");
-}
-void CodePrinter::bvisit(const EmptySet &x)
-{
-    throw SymEngineException("Not supported");
-}
-void CodePrinter::bvisit(const FiniteSet &x)
-{
-    throw SymEngineException("Not supported");
-}
-void CodePrinter::bvisit(const UniversalSet &x)
-{
-    throw SymEngineException("Not supported");
-}
+
 void CodePrinter::bvisit(const Abs &x)
 {
     std::ostringstream s;

@@ -306,6 +306,33 @@ public:
     RCP<const Set> create(const set_set &in) const;
 };
 
+class Intersection : public Set
+{
+private:
+    set_set container_;
+
+public:
+    IMPLEMENT_TYPEID(SYMENGINE_INTERSECTION)
+    virtual hash_t __hash__() const;
+    virtual bool __eq__(const Basic &o) const;
+    virtual int compare(const Basic &o) const;
+    virtual vec_basic get_args() const;
+    Intersection(const set_set &in);
+    static bool is_canonical(const set_set &in);
+
+    virtual RCP<const Set> set_intersection(const RCP<const Set> &o) const;
+    virtual RCP<const Set> set_union(const RCP<const Set> &o) const;
+    virtual RCP<const Set> set_complement(const RCP<const Set> &o) const;
+    virtual RCP<const Boolean> contains(const RCP<const Basic> &a) const;
+
+    inline const set_set &get_container() const
+    {
+        return this->container_;
+    }
+
+    RCP<const Set> create(const set_set &in) const;
+};
+
 class Complement : public Set
 {
 private:
@@ -430,6 +457,7 @@ inline bool is_a_Set(const Basic &b)
             || b.get_type_code() == SYMENGINE_RATIONALS
             || b.get_type_code() == SYMENGINE_INTEGERS
             || b.get_type_code() == SYMENGINE_UNION
+            || b.get_type_code() == SYMENGINE_INTERSECTION
             || b.get_type_code() == SYMENGINE_IMAGESET);
 }
 

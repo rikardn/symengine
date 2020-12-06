@@ -32,6 +32,7 @@ using SymEngine::emptyset;
 using SymEngine::UniversalSet;
 using SymEngine::universalset;
 using SymEngine::Union;
+using SymEngine::Intersection;
 using SymEngine::set_union;
 using SymEngine::rcp_dynamic_cast;
 using SymEngine::Complex;
@@ -883,6 +884,37 @@ TEST_CASE("set_complement : Basic", "[basic]")
     r1 = set_complement(f1, f2);
     r2 = finiteset({zero, one});
     REQUIRE(eq(*r1, *r2));
+}
+
+TEST_CASE("Intersection : Basic", "[basic]")
+{
+    RCP<const Set> r1 = rationals();
+    RCP<const Set> r2 = interval(one, integer(3));
+    RCP<const Set> r3 = finiteset({symbol("x")});
+    RCP<const Set> r4 = reals();
+    RCP<const Set> r5 = interval(integer(5), integer(6));
+    RCP<const Number> i2 = integer(2);
+    RCP<const Number> i4 = integer(4);
+
+    RCP<const Set> int1 = set_intersection({r1, r2});
+    auto &int2 = down_cast<const Intersection &>(*int1);
+    REQUIRE(int2.get_container().size() == 2);
+    REQUIRE(int2.get_container().count(r1) == 1);
+    REQUIRE(int2.get_container().count(r2) == 1);
+    REQUIRE(int1->__str__() == "Rationals n [1, 3]");
+    REQUIRE(eq(*int1->contains(i2), *boolTrue));
+    REQUIRE(eq(*int1->contains(i4), *boolFalse));
+    REQUIRE(eq(*int1, *int1->set_intersection(r4)));
+    std::cout << "STARTING" << std::endl;
+    RCP<const Set> int3 = int1->set_intersection(r5);
+    auto &int4 = down_cast<const Intersection &>(*int3);
+    //REQUIRE(int4.get_container().size() == 3);
+    //REQUIRE(int2.get_container().count(r1) == 1);
+    //REQUIRE(int2.get_container().count(r2) == 1);
+
+    //RCP<const Set> int3 = set_intersection({r1, r3});
+    RCP<const Set> int5 = set_intersection({r1, r4});
+    REQUIRE(eq(*int5, *r1));
 }
 
 TEST_CASE("ConditionSet : Basic", "[basic]")

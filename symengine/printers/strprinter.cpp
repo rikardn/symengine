@@ -403,6 +403,17 @@ void StrPrinter::bvisit(const Union &x)
     str_ = s.str();
 }
 
+void StrPrinter::bvisit(const Intersection &x)
+{
+    std::ostringstream s;
+    s << apply(*x.get_container().begin());
+    for (auto it = ++(x.get_container().begin()); it != x.get_container().end();
+         ++it) {
+        s << " n " << apply(*it);
+    }
+    str_ = s.str();
+}
+
 void StrPrinter::bvisit(const Complement &x)
 {
     std::ostringstream s;

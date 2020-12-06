@@ -20,12 +20,7 @@ public:
     void bvisit(const Contains &x);
     void bvisit(const Piecewise &x);
     void bvisit(const Rational &x);
-    void bvisit(const EmptySet &x);
-    void bvisit(const FiniteSet &x);
-    void bvisit(const Reals &x);
-    void bvisit(const Rationals &x);
-    void bvisit(const Integers &x);
-    void bvisit(const UniversalSet &x);
+    void bvisit(const Set &x);
     void bvisit(const Abs &x);
     void bvisit(const Ceiling &x);
     void bvisit(const Truncate &x);
