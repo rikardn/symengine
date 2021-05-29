@@ -70,6 +70,12 @@ void RefineVisitor::bvisit(const Conjugate &x)
     }
 }
 
+void RefineVisitor::bvisit(const UnevaluatedExpr &x)
+{
+    auto farg = x.get_arg();
+    result_ = apply(farg);
+}
+
 RCP<const Basic> refine(const RCP<const Basic> &x,
                         const Assumptions *assumptions)
 {

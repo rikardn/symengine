@@ -74,4 +74,7 @@ TEST_CASE("Test refine", "[refine]")
     expr = conjugate(x);
     auto a15 = Assumptions({});
     REQUIRE(eq(*refine(expr, &a15), *expr));
+
+    expr = sin(unevaluated_expr(add(x, div(pi, integer(2)))));
+    REQUIRE(eq(*refine(expr, &a15), *cos(x)));
 }

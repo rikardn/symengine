@@ -130,15 +130,6 @@ void PositiveVisitor::bvisit(const Symbol &x)
     }
 }
 
-void PositiveVisitor::bvisit(const Symbol &x)
-{
-    if (assumptions_) {
-        is_positive_ = assumptions_->is_positive(x.rcp_from_this());
-    } else {
-        is_positive_ = tribool::indeterminate;
-    }
-}
-
 void PositiveVisitor::bvisit(const Number &x)
 {
     if (is_a_Complex(x)) {
